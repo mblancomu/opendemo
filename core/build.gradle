@@ -15,6 +15,9 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField("String", "PUBLIC_API_KEY", PUBLIC_API_KEY)
+        buildConfigField("String", "PRIVATE_API_KEY", PRIVATE_API_KEY)
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }

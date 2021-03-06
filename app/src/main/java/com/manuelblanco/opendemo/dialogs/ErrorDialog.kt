@@ -1,0 +1,37 @@
+package com.mcogeo.parkingandbici.dialogs
+
+import android.app.Dialog
+import android.content.Context
+import android.os.Bundle
+import com.manuelblanco.opendemo.R
+import com.manuelblanco.opendemo.databinding.DialogErrorBinding
+
+class ErrorDialog(context: Context, private val listener: ErrorDialogListener) :
+    Dialog(context, android.R.style.Theme_Material_Dialog) {
+
+    lateinit var binding: DialogErrorBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        window?.setBackgroundDrawable(context.resources?.getDrawable(android.R.color.transparent))
+
+        binding = DialogErrorBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        initViews(binding)
+    }
+
+    private fun initViews(view: DialogErrorBinding) {
+        view.dialogTitle.text = context.getString(R.string.title_error)
+        view.dialogMessage.text = context.getString(R.string.msg_error)
+        view.buttonCancel.text = context.getString(R.string.btn_cancel)
+
+        view.buttonCancel.setOnClickListener {
+            dismiss()
+        }
+    }
+
+    interface ErrorDialogListener {
+        fun onTrySelected()
+    }
+}

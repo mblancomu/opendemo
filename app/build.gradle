@@ -88,12 +88,13 @@ dependencies {
 
     //Coil
     //Singleton artifact
-    implementation "io.coil-kt:coil:0.9.5"
+    implementation "io.coil-kt:coil:1.1.1"
     //Base artifact without singleton
-    implementation "io.coil-kt:coil-base:0.9.5"
+    implementation "io.coil-kt:coil-base:1.1.1"
 
     //Room
     implementation deps.room.runtime
+    implementation 'androidx.cardview:cardview:1.0.0'
     kapt deps.room.compiler
     //implementation deps.room.compiler
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_xxs"
+    card_view:cardBackgroundColor="@color/purple_700"
+    card_view:cardCornerRadius="@dimen/margin_xxs"
+    card_view:cardElevation="3dp"
+    card_view:contentPadding="@dimen/margin_xxs">
+
+    <ImageView
+        android:id="@+id/ivThumbnail"
+        android:layout_width="100dp"
+        android:layout_height="180dp"
+        android:contentDescription="marvel_item"
+        android:scaleType="centerInside"
+        android:src="@drawable/placeholder_marvel"
+        tools:ignore="HardcodedText" />
+</androidx.cardview.widget.CardView>

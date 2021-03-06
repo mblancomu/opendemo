@@ -10,5 +10,6 @@ data class Favorite(
     val id : Int,
     val name : String?,
     val description : String?,
-    val resourceURI : String?
+    val resourceURI : String?,
+    val thumbnail : String?
 )

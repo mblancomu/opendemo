@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">OpenMarvel</string>
+
+    <string name="title_characters">Characters</string>
+    <string name="title_fav">Favorites</string>
+    <string name="title_detail">Detail</string>
+    <string name="title_error">ERROR</string>
+    <string name="star">Star</string>
+
+    <string name="no_network">Sin Conexión</string>
+    <string name="no_network_message">No dispone de conexión a internet. Por favor, actualice sus datos cuando disponga de conexión.</string>
+    <string name="btn_ok">Aceptar</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="msg_error">Se ha producido un error, algo fue mal. Por favor, intentelo de nuevo o reinicie la app.</string>
+    <string name="dialog_title_remove_fav">Eliminar Favorito</string>
+    <string name="dialog_message_remove_fav">¿Desea eliminar %1$s de Favoritos?</string>
+    <string name="empty_favorites">Aún no añadió Favoritos</string>
+    <string name="empty_list">Sin datos de Personajes</string>
 </resources>

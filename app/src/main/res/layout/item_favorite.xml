@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/card_view"
+    android:layout_margin="@dimen/margin_xs"
+    card_view:cardBackgroundColor="@color/purple_700"
+    card_view:cardCornerRadius="12dp"
+    card_view:cardElevation="3dp"
+    card_view:contentPadding="4dp" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_m" >
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="120dp"
+            android:id="@+id/favImage"
+            android:src="@drawable/placeholder_marvel"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="@dimen/margin_l"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/favTitle"
+            android:layout_toEndOf="@+id/favImage"
+            android:layout_alignParentTop="true"
+            android:textSize="@dimen/h1"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/favDescription"
+            android:textSize="@dimen/h3"
+            android:layout_toEndOf="@+id/favImage"
+            android:layout_below="@+id/favTitle"
+            />
+
+        <ImageView
+            android:id="@+id/favStar"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_baseline_star_24"
+            android:padding="@dimen/margin_s"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/star" />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
