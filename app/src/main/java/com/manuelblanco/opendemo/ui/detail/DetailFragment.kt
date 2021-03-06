@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import coil.load
@@ -15,12 +14,12 @@ import com.manuelblanco.core.model.Character
 import com.manuelblanco.core.model.Favorite
 import com.manuelblanco.opendemo.R
 import com.manuelblanco.opendemo.common.AnimationUtils
+import com.manuelblanco.opendemo.common.viewLifecycle
 import com.manuelblanco.opendemo.databinding.FragmentDetailBinding
 import com.manuelblanco.opendemo.ui.base.BaseFragment
 import com.manuelblanco.opendemo.ui.base.BaseFragment.Companion.ARGS_CHARACTER_ID
 import com.manuelblanco.opendemo.viewmodel.DetailViewModel
 import com.manuelblanco.opendemo.viewmodel.FavoritesViewModel
-import com.mcogeo.parkingandbici.utils.viewLifecycle
 import kotlinx.android.synthetic.main.fragment_detail.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -53,8 +52,6 @@ class DetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setHasOptionsMenu(true)
 
         loadingState()

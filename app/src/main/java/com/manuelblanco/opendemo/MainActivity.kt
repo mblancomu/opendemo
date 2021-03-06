@@ -5,20 +5,28 @@ import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.manuelblanco.opendemo.ui.base.BaseActivity
-import com.manuelblanco.opendemo.viewmodel.DetailViewModel
+import com.manuelblanco.opendemo.common.setupWithNavController
 import com.manuelblanco.opendemo.viewmodel.CharactersViewModel
-import com.mcogeo.parkingandbici.setupWithNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
 
-    private val detailViewModel by viewModel<DetailViewModel>()
-    private val listViewModel by viewModel<CharactersViewModel>()
     private var currentNavController: LiveData<NavController>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (savedInstanceState == null) {
+            setupBottomNavigationBar()
+        }
+
+        supportActionBar?.apply {
+            title = getString(R.string.app_name)
+            setDisplayShowTitleEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.mipmap.ic_launcher)
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {

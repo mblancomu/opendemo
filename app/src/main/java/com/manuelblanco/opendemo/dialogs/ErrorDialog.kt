@@ -1,4 +1,4 @@
-package com.mcogeo.parkingandbici.dialogs
+package com.manuelblanco.opendemo.dialogs
 
 import android.app.Dialog
 import android.content.Context

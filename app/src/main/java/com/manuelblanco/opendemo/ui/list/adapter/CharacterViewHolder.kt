@@ -1,5 +1,6 @@
 package com.manuelblanco.opendemo.ui.list.adapter
 
+
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -12,8 +13,11 @@ class CharacterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(character: Character, listener: CharacterItemListeners) {
         initListeners(listener, character)
+        val imageUrl = character.thumbnail.path.plus("/portrait_xlarge").plus(".")
+            .plus(character.thumbnail.extension)
         binding.ivThumbnail.apply {
-            load(character.thumbnail.path) {
+            load(imageUrl) {
+                crossfade(true)
                 placeholder(R.drawable.placeholder_marvel)
             }
         }
@@ -24,5 +28,4 @@ class CharacterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             listener.onCharacterClickListener(character)
         }
     }
-
 }

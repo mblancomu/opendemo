@@ -72,7 +72,7 @@ versions.viewpager2 = "1.0.0"
 ext.versions = versions
 
 def build_versions = [:]
-build_versions.min_sdk = 23
+build_versions.min_sdk = 24
 build_versions.target_sdk = 29
 build_versions.build_tools = "29.0.2"
 ext.build_versions = build_versions

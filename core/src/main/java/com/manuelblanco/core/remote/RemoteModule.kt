@@ -43,7 +43,7 @@ private fun provideOkHttpClient(
             val privateKey = BuildConfig.PRIVATE_API_KEY
 
             val ts = System.currentTimeMillis()
-            val beforeHash = ts.toString() + publicKey + privateKey
+            val beforeHash = ts.toString() + privateKey + publicKey
 
             val md = MessageDigest.getInstance("MD5")
             val digested = md.digest(beforeHash.toByteArray()) // making md5 hash bytes

@@ -15,7 +15,7 @@ class OpenApplication: Application() {
         super.onCreate()
         startKoin {
             androidContext(this@OpenApplication)
-            androidLogger(Level.DEBUG)
+            androidLogger(Level.NONE)
             modules(coreModules + viewModelModule)
         }
     }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mcogeo.parkingandbici
+package com.manuelblanco.opendemo.common
 
 import android.content.Intent
 import android.util.SparseArray

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.manuelblanco.core.LoadingState
@@ -20,13 +19,12 @@ import com.manuelblanco.opendemo.ui.list.adapter.CharacterItemListeners
 import com.manuelblanco.opendemo.ui.list.adapter.CharactersAdapter
 import com.manuelblanco.opendemo.viewmodel.CharactersViewModel
 import com.manuelblanco.opendemo.views.CustomGridRecyclerView
-import com.mcogeo.parkingandbici.utils.viewLifecycle
+import com.manuelblanco.opendemo.common.viewLifecycle
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CharactersFragment : BaseFragment(), CharacterItemListeners {
 
     lateinit var gridLayoutManager: GridLayoutManager
-    lateinit var gridView: CustomGridRecyclerView
     val charactersViewModel by viewModel<CharactersViewModel>()
     var binding: FragmentGridBinding by viewLifecycle()
     lateinit var charactersAdapter: CharactersAdapter
@@ -47,13 +45,18 @@ class CharactersFragment : BaseFragment(), CharacterItemListeners {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        gridLayoutManager = GridLayoutManager(context, 3)
+        gridLayoutManager = GridLayoutManager(context, 2)
 
         initSwipeRefresh()
         setUpAdapter()
     }
 
-    fun setUpAdapter() {
+    override fun onResume() {
+        super.onResume()
+        fetchData()
+    }
+
+    private fun setUpAdapter() {
         binding.emptyList.text =
             getString(R.string.empty_list)
         charactersAdapter = CharactersAdapter()
@@ -64,7 +67,7 @@ class CharactersFragment : BaseFragment(), CharacterItemListeners {
             adapter = charactersAdapter
         }
 
-        fetchData()
+       // fetchData()
     }
 
     private fun initSwipeRefresh() {
@@ -95,7 +98,7 @@ class CharactersFragment : BaseFragment(), CharacterItemListeners {
             }
 
             charactersAdapter.addCharacters(listOfCharacters)
-            animatedGrid()
+            //animatedGrid()
         })
 
         dismissSwipeRefresh()
@@ -128,7 +131,7 @@ class CharactersFragment : BaseFragment(), CharacterItemListeners {
         val controller: LayoutAnimationController =
             AnimationUtils.loadLayoutAnimation(context, R.anim.animation_grid_bottom)
 
-        gridView.apply {
+        binding.gridView.apply {
             layoutAnimation = controller
             scheduleLayoutAnimation()
         }

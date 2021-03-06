@@ -1,4 +1,4 @@
-package com.mcogeo.parkingandbici.utils
+package com.manuelblanco.opendemo.common
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*

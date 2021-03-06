@@ -1,7 +1,6 @@
 package com.manuelblanco.opendemo.ui.favorites
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +15,8 @@ import com.manuelblanco.opendemo.ui.base.BaseFragment
 import com.manuelblanco.opendemo.ui.detail.DetailNavigation
 import com.manuelblanco.opendemo.ui.favorites.adapter.FavoritesAdapter
 import com.manuelblanco.opendemo.viewmodel.FavoritesViewModel
-import com.mcogeo.parkingandbici.dialogs.InfoDialog
-import com.mcogeo.parkingandbici.utils.viewLifecycle
+import com.manuelblanco.opendemo.dialogs.InfoDialog
+import com.manuelblanco.opendemo.common.viewLifecycle
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoritesFragment : BaseFragment(), FavoriteItemListeners {

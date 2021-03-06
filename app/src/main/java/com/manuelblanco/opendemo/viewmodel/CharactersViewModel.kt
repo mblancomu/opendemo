@@ -28,6 +28,7 @@ class CharactersViewModel(private val marvelRepository: MarvelRepository) : View
                 try {
                     _loadingState.value = LoadingState.LOADING
                     val result = resultDetail.await()
+                    _characterList.value = result.data.results
                     verifyResult(result)
                     _loadingState.value = LoadingState.SUCCESS
                 } catch (e: Exception) {
