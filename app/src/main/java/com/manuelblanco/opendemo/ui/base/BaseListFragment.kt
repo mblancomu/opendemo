@@ -42,7 +42,7 @@ abstract class BaseListFragment : BaseFragment() {
             title = getString(R.string.app_name)
             setDisplayShowTitleEnabled(true)
             setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.mipmap.ic_launcher)
+            setHomeAsUpIndicator(R.drawable.logo_toolbar)
         }
     }
 

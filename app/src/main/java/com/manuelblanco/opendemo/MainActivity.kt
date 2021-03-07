@@ -2,13 +2,13 @@ package com.manuelblanco.opendemo
 
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.manuelblanco.opendemo.ui.base.BaseActivity
+import com.manuelblanco.opendemo.common.BottomNavigationViewBehavior
 import com.manuelblanco.opendemo.common.setupWithNavController
-import com.manuelblanco.opendemo.viewmodel.CharactersViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.manuelblanco.opendemo.ui.base.BaseActivity
 
 class MainActivity : BaseActivity() {
 
@@ -48,6 +48,10 @@ class MainActivity : BaseActivity() {
             intent = intent
         )
         currentNavController = controller
+
+        val layoutParams: CoordinatorLayout.LayoutParams =
+            bottomNavigationView.layoutParams as CoordinatorLayout.LayoutParams
+        layoutParams.behavior = BottomNavigationViewBehavior()
     }
 
     override fun onSupportNavigateUp(): Boolean {
