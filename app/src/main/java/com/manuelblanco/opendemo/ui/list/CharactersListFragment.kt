@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import android.view.animation.LayoutAnimationController
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.manuelblanco.core.LoadingState
 import com.manuelblanco.core.model.Character
@@ -27,6 +26,8 @@ class CharactersListFragment : BaseListFragment(), CharacterItemListeners {
     val charactersViewModel by viewModel<CharactersViewModel>()
     lateinit var charactersAdapter: CharactersAdapter
     private var listOfCharacters: MutableList<Character> = mutableListOf()
+    private var isLoading: Boolean = false
+    private var isFromUpdate: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,17 +44,19 @@ class CharactersListFragment : BaseListFragment(), CharacterItemListeners {
         super.onViewCreated(view, savedInstanceState)
         gridLayoutManager = GridLayoutManager(context, 2)
 
-        initSwipeRefresh()
         setUpAdapter()
+        onRefresh()
         loadingState()
+        paginationScroll()
+        fetchData()
     }
 
     override fun onResume() {
         super.onResume()
-        fetchData()
+        charactersViewModel.fetchCharactersData()
     }
 
-    private fun setUpAdapter() {
+    override fun setUpAdapter() {
         binding.emptyList.text =
             getString(R.string.empty_list)
         charactersAdapter = CharactersAdapter()
@@ -65,23 +68,22 @@ class CharactersListFragment : BaseListFragment(), CharacterItemListeners {
         }
     }
 
-    private fun initSwipeRefresh() {
+    override fun onRefresh() {
         binding.swipeRefresh.setOnRefreshListener {
-            fetchData()
+            charactersViewModel.fetchCharactersData()
         }
-        binding.swipeRefresh.setColorSchemeResources(
-            android.R.color.holo_blue_bright,
-            android.R.color.holo_green_light,
-            android.R.color.holo_orange_light,
-            android.R.color.holo_red_light
-        )
     }
 
     override fun fetchData() {
-        charactersViewModel.fetchCharactersData(10)
         charactersViewModel.characterList.observe(viewLifecycleOwner, Observer { characters ->
             if (!characters.isNullOrEmpty()) {
-                listOfCharacters = characters as MutableList<Character>
+                if (isFromUpdate) {
+                    listOfCharacters.addAll(characters)
+                    isFromUpdate = false
+                    isLoading = false
+                } else {
+                    listOfCharacters = characters as MutableList<Character>
+                }
                 charactersViewModel.updateLoadingState(LoadingState.LOADED)
             } else {
                 listOfCharacters = mutableListOf()
@@ -89,7 +91,6 @@ class CharactersListFragment : BaseListFragment(), CharacterItemListeners {
             }
 
             charactersAdapter.addCharacters(listOfCharacters)
-            //animatedGrid()
         })
 
         dismissSwipeRefresh()
@@ -109,21 +110,24 @@ class CharactersListFragment : BaseListFragment(), CharacterItemListeners {
                     emptyView()
                 }
                 LoadingState.LOADING -> {
-                    showProgress()
+                    showProgress(isFromUpdate)
                 }
             }
         })
     }
 
-    private fun animatedGrid() {
-        val controller: LayoutAnimationController =
-            AnimationUtils.loadLayoutAnimation(context, R.anim.animation_grid_bottom)
-
-        binding.recyclerView.apply {
-            layoutAnimation = controller
-            scheduleLayoutAnimation()
-        }
-
-        charactersAdapter.notifyDataSetChanged();
+    private fun paginationScroll() {
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (!isLoading) {
+                    if (gridLayoutManager.findLastCompletelyVisibleItemPosition() == listOfCharacters.size - 1) {
+                        isFromUpdate = true
+                        charactersViewModel.fetchCharactersData(listOfCharacters.size)
+                        isLoading = true
+                    }
+                }
+            }
+        })
     }
 }

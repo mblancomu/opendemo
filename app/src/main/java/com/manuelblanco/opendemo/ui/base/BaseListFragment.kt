@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import com.manuelblanco.opendemo.R
 import com.manuelblanco.opendemo.common.viewLifecycle
 import com.manuelblanco.opendemo.databinding.FragmentListBinding
@@ -27,6 +26,15 @@ abstract class BaseListFragment : BaseFragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initSwipeRefresh()
+    }
+
+    abstract fun setUpAdapter()
+
+    abstract fun onRefresh()
+
     override fun setUpToolbar(toolbar: Toolbar) {
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         val actionBar = (activity as AppCompatActivity).supportActionBar
@@ -38,15 +46,28 @@ abstract class BaseListFragment : BaseFragment() {
         }
     }
 
+    open fun initSwipeRefresh() {
+        binding.swipeRefresh.setColorSchemeResources(
+            android.R.color.holo_blue_bright,
+            android.R.color.holo_green_light,
+            android.R.color.holo_orange_light,
+            android.R.color.holo_red_light
+        )
+    }
+
     fun dismissSwipeRefresh() {
         binding.swipeRefresh.isRefreshing = false
     }
 
-    open fun showProgress() {
+    open fun showProgress(isFromUpdate: Boolean) {
         dismissSwipeRefresh()
-        binding.emptyList.visibility = View.GONE
-        binding.swipeRefresh.visibility = View.GONE
-        binding.progressBar.visibility = View.VISIBLE
+        if (isFromUpdate) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.emptyList.visibility = View.GONE
+            binding.swipeRefresh.visibility = View.GONE
+            binding.progressBar.visibility = View.VISIBLE
+        }
     }
 
     open fun hideProgress() {

@@ -21,7 +21,7 @@ class CharactersViewModel(private val marvelRepository: MarvelRepository) : View
 
     val characterList = _characterList
 
-    fun fetchCharactersData(offset: Int){
+    fun fetchCharactersData(offset: Int = 0){
         if (isNetworkAvailable.value!!) {
             CoroutineScope(Dispatchers.Main).launch {
                 val resultDetail: Deferred<MarvelResponse> = marvelRepository.getListCharacters(offset)

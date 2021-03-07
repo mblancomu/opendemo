@@ -30,7 +30,8 @@ class CharactersAdapter : RecyclerView.Adapter<CharacterViewHolder>() {
     }
 
     fun addCharacters(list: MutableList<Character>) {
-        characters = list
+        characters.clear()
+        characters.addAll(list)
         notifyDataSetChanged()
     }
 }

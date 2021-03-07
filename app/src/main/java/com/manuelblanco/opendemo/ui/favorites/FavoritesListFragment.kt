@@ -42,8 +42,8 @@ class FavoritesListFragment : BaseListFragment(), FavoriteItemListeners {
 
         loadingState()
         fetchData()
-        initSwipeRefresh()
         setUpAdapter()
+        onRefresh()
     }
 
     override fun onResume() {
@@ -67,7 +67,8 @@ class FavoritesListFragment : BaseListFragment(), FavoriteItemListeners {
         dismissSwipeRefresh()
     }
 
-    fun setUpAdapter() {
+    override fun setUpAdapter() {
+        binding.emptyList.text = getString(R.string.empty_favorites)
         favAdapter = FavoritesAdapter()
         favAdapter.listener = this
 
@@ -77,33 +78,23 @@ class FavoritesListFragment : BaseListFragment(), FavoriteItemListeners {
         }
     }
 
-    private fun initSwipeRefresh() {
-        binding.emptyList.text = getString(R.string.empty_favorites)
+    override fun onRefresh() {
         binding.swipeRefresh.setOnRefreshListener {
             fetchData()
         }
-        binding.swipeRefresh.setColorSchemeResources(
-            android.R.color.holo_blue_bright,
-            android.R.color.holo_green_light,
-            android.R.color.holo_orange_light,
-            android.R.color.holo_red_light
-        )
     }
 
     override fun loadingState() {
         favoritesViewModel.loadingState.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
-                LoadingState.LOADED -> {
-                    dismissSwipeRefresh()
-                    binding.emptyList.visibility = View.GONE
-                    binding.swipeRefresh.visibility = View.VISIBLE
+                LoadingState.SUCCESS -> {
+                    hideProgress()
                 }
                 LoadingState.EMPTY_OR_NULL -> {
-                    dismissSwipeRefresh()
-                    binding.emptyList.visibility = View.VISIBLE
-                    binding.swipeRefresh.visibility = View.GONE
+                    emptyView()
                 }
                 LoadingState.LOADING -> {
+                    showProgress(false)
                 }
             }
         })
