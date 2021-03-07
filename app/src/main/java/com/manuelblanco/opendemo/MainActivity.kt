@@ -1,6 +1,7 @@
 package com.manuelblanco.opendemo
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -15,17 +16,11 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
             setupBottomNavigationBar()
-        }
-
-        supportActionBar?.apply {
-            title = getString(R.string.app_name)
-            setDisplayShowTitleEnabled(true)
-            setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.mipmap.ic_launcher)
         }
     }
 

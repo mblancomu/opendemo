@@ -29,7 +29,6 @@ class DetailViewModel(private val marvelRepository: MarvelRepository) : ViewMode
                     _loadingState.value = LoadingState.LOADING
                     val result = resultDetail.await()
                     verifyResult(result)
-                    _loadingState.value = LoadingState.SUCCESS
                 } catch (e: Exception) {
                     _loadingState.value = LoadingState.error(e.message)
                 }
@@ -41,7 +40,10 @@ class DetailViewModel(private val marvelRepository: MarvelRepository) : ViewMode
 
     private fun verifyResult(result: MarvelResponse){
         when (result.code.toInt()) {
-            200 ->  _loadingState.value = LoadingState.SUCCESS
+            200 ->  {
+                _character.value = result.data.results[0]
+                _loadingState.value = LoadingState.SUCCESS
+            }
             else -> _loadingState.value = LoadingState.error("Something was wrong")
         }
     }

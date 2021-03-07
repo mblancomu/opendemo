@@ -9,24 +9,22 @@ import android.view.animation.LayoutAnimationController
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.manuelblanco.core.LoadingState
 import com.manuelblanco.core.model.Character
 import com.manuelblanco.opendemo.R
-import com.manuelblanco.opendemo.databinding.FragmentGridBinding
-import com.manuelblanco.opendemo.ui.base.BaseFragment
+import com.manuelblanco.opendemo.ui.base.BaseListFragment
 import com.manuelblanco.opendemo.ui.detail.DetailNavigation
 import com.manuelblanco.opendemo.ui.list.adapter.CharacterItemListeners
 import com.manuelblanco.opendemo.ui.list.adapter.CharactersAdapter
 import com.manuelblanco.opendemo.viewmodel.CharactersViewModel
-import com.manuelblanco.opendemo.views.CustomGridRecyclerView
-import com.manuelblanco.opendemo.common.viewLifecycle
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CharactersFragment : BaseFragment(), CharacterItemListeners {
+
+class CharactersListFragment : BaseListFragment(), CharacterItemListeners {
 
     lateinit var gridLayoutManager: GridLayoutManager
     val charactersViewModel by viewModel<CharactersViewModel>()
-    var binding: FragmentGridBinding by viewLifecycle()
     lateinit var charactersAdapter: CharactersAdapter
     private var listOfCharacters: MutableList<Character> = mutableListOf()
 
@@ -35,20 +33,19 @@ class CharactersFragment : BaseFragment(), CharacterItemListeners {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        binding = FragmentGridBinding.inflate(inflater, container, false)
-        setHasOptionsMenu(true)
-
-        return binding.root
+        val bottomBar =
+            requireActivity().findViewById<View>(R.id.bottom_nav) as BottomNavigationView
+        bottomBar.visibility = View.VISIBLE
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         gridLayoutManager = GridLayoutManager(context, 2)
 
         initSwipeRefresh()
         setUpAdapter()
+        loadingState()
     }
 
     override fun onResume() {
@@ -62,12 +59,10 @@ class CharactersFragment : BaseFragment(), CharacterItemListeners {
         charactersAdapter = CharactersAdapter()
         charactersAdapter.listener = this
 
-        binding.gridView.apply {
+        binding.recyclerView.apply {
             layoutManager = gridLayoutManager
             adapter = charactersAdapter
         }
-
-       // fetchData()
     }
 
     private fun initSwipeRefresh() {
@@ -80,10 +75,6 @@ class CharactersFragment : BaseFragment(), CharacterItemListeners {
             android.R.color.holo_orange_light,
             android.R.color.holo_red_light
         )
-    }
-
-    fun dismissSwipeRefresh() {
-        binding.swipeRefresh.isRefreshing = false
     }
 
     override fun fetchData() {
@@ -109,19 +100,16 @@ class CharactersFragment : BaseFragment(), CharacterItemListeners {
     }
 
     override fun loadingState() {
-        charactersViewModel.loadingState.observe(viewLifecycleOwner, Observer { state ->
+        charactersViewModel.loadingState.observe(viewLifecycleOwner, { state ->
             when (state) {
-                LoadingState.LOADED -> {
-                    dismissSwipeRefresh()
-                    binding.emptyList.visibility = View.GONE
-                    binding.swipeRefresh.visibility = View.VISIBLE
+                LoadingState.SUCCESS -> {
+                    hideProgress()
                 }
                 LoadingState.EMPTY_OR_NULL -> {
-                    dismissSwipeRefresh()
-                    binding.emptyList.visibility = View.VISIBLE
-                    binding.swipeRefresh.visibility = View.GONE
+                    emptyView()
                 }
                 LoadingState.LOADING -> {
+                    showProgress()
                 }
             }
         })
@@ -131,12 +119,11 @@ class CharactersFragment : BaseFragment(), CharacterItemListeners {
         val controller: LayoutAnimationController =
             AnimationUtils.loadLayoutAnimation(context, R.anim.animation_grid_bottom)
 
-        binding.gridView.apply {
+        binding.recyclerView.apply {
             layoutAnimation = controller
             scheduleLayoutAnimation()
         }
 
         charactersAdapter.notifyDataSetChanged();
     }
-
 }

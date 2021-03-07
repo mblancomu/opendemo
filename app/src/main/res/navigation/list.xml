@@ -8,9 +8,9 @@
 
     <fragment
         android:id="@+id/listScreen"
-        android:name="com.manuelblanco.opendemo.ui.list.CharactersFragment"
+        android:name="com.manuelblanco.opendemo.ui.list.CharactersListFragment"
         android:label="@string/title_characters"
-        tools:layout="@layout/fragment_grid">
+        tools:layout="@layout/fragment_list">
         <action
             android:id="@+id/action_list_to_detail"
             app:destination="@id/detailScreen" />

@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/card_view"
     android:layout_margin="@dimen/margin_xs"
-    card_view:cardBackgroundColor="@color/purple_700"
+    card_view:cardBackgroundColor="@color/white"
     card_view:cardCornerRadius="12dp"
     card_view:cardElevation="3dp"
     card_view:contentPadding="4dp" >
@@ -31,18 +31,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/favTitle"
+            android:textColor="@color/primary_dark"
+            android:textStyle="bold"
             android:layout_toEndOf="@+id/favImage"
             android:layout_alignParentTop="true"
-            android:textSize="@dimen/h1"
-            tools:ignore="RelativeOverlap" />
+            android:textSize="@dimen/h4"
+            tools:ignore="RelativeOverlap"
+            tools:text="Este es el Titulo"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/favDescription"
-            android:textSize="@dimen/h3"
+            android:textColor="@color/textColorDarkSoft"
+            android:textSize="@dimen/h7"
             android:layout_toEndOf="@+id/favImage"
             android:layout_below="@+id/favTitle"
+            tools:text="Esta es la descripción de este elemento de la lista"
             />
 
         <ImageView

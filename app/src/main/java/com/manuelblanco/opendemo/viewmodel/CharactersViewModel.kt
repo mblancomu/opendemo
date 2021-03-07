@@ -28,9 +28,7 @@ class CharactersViewModel(private val marvelRepository: MarvelRepository) : View
                 try {
                     _loadingState.value = LoadingState.LOADING
                     val result = resultDetail.await()
-                    _characterList.value = result.data.results
                     verifyResult(result)
-                    _loadingState.value = LoadingState.SUCCESS
                 } catch (e: Exception) {
                     _loadingState.value = LoadingState.error(e.message)
                 }
@@ -42,7 +40,10 @@ class CharactersViewModel(private val marvelRepository: MarvelRepository) : View
 
     private fun verifyResult(result: MarvelResponse){
         when (result.code.toInt()) {
-            200 ->  _loadingState.value = LoadingState.SUCCESS
+            200 ->  {
+                _characterList.value = result.data.results
+                _loadingState.value = LoadingState.SUCCESS
+            }
             else -> _loadingState.value = LoadingState.error("Something was wrong")
         }
     }

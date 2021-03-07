@@ -4,32 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import coil.load
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.manuelblanco.core.LoadingState
 import com.manuelblanco.core.model.Character
 import com.manuelblanco.core.model.Favorite
 import com.manuelblanco.opendemo.R
 import com.manuelblanco.opendemo.common.AnimationUtils
+import com.manuelblanco.opendemo.common.ThumbnailSize
 import com.manuelblanco.opendemo.common.viewLifecycle
 import com.manuelblanco.opendemo.databinding.FragmentDetailBinding
 import com.manuelblanco.opendemo.ui.base.BaseFragment
-import com.manuelblanco.opendemo.ui.base.BaseFragment.Companion.ARGS_CHARACTER_ID
 import com.manuelblanco.opendemo.viewmodel.DetailViewModel
 import com.manuelblanco.opendemo.viewmodel.FavoritesViewModel
 import kotlinx.android.synthetic.main.fragment_detail.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
-fun newDetailBikeFragment(characterId: String): DetailFragment {
-    val bundle = Bundle()
-    bundle.putString(ARGS_CHARACTER_ID, characterId)
-    val detailFragment = DetailFragment()
-    detailFragment.arguments = bundle
-    return detailFragment
-}
 
 class DetailFragment : BaseFragment() {
     var characterId = ""
@@ -44,16 +39,18 @@ class DetailFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
+        val bottomBar =
+            requireActivity().findViewById<View>(R.id.bottom_nav) as BottomNavigationView
+        bottomBar.visibility = View.GONE
         val view = binding.root
         characterId = arguments?.getString(ARGS_CHARACTER_ID)!!
-        showProgress(true, binding.appbar, binding.mainList, binding.fab)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
 
+        setUpToolbar(binding.toolbar)
         loadingState()
         fetchData()
         initAppBarLayout()
@@ -89,13 +86,16 @@ class DetailFragment : BaseFragment() {
 
     private fun saveFavorite(isFavorite: Boolean) {
         if (!isFavorite) {
+            val imageUrl =
+                characterDetail?.thumbnail?.path.plus(ThumbnailSize.MEDIUM.size).plus(".")
+                    .plus(characterDetail?.thumbnail?.extension)
             val favorite = characterDetail?.id?.let { id ->
                 Favorite(
                     id.toInt(),
                     characterDetail?.name,
                     characterDetail?.description,
                     characterDetail?.resourceURI,
-                    characterDetail?.thumbnail?.path,
+                    imageUrl,
                 )
             }
             favorite?.let { fav -> favoritesViewModel.addFavorite(fav) }
@@ -108,9 +108,14 @@ class DetailFragment : BaseFragment() {
             if (detail != null) {
                 characterDetail = detail
                 binding.collapsingToolbar.title = characterDetail?.name
+                binding.textDescription.text = if (characterDetail?.description.isNullOrEmpty()) getString(R.string.no_description)
+                else characterDetail?.description
+                val imageUrl = characterDetail?.thumbnail?.path.plus(".")
+                    .plus(characterDetail?.thumbnail?.extension)
                 binding.detailImg.apply {
-                    load(characterDetail?.thumbnail?.path) {
-                        placeholder(R.drawable.marvel_logo)
+                    load(imageUrl) {
+                        crossfade(true)
+                        placeholder(R.drawable.placeholder_marvel)
                     }
                 }
                 binding.appbar.setExpanded(true)
@@ -133,17 +138,33 @@ class DetailFragment : BaseFragment() {
     override fun loadingState() {
         detailViewModel.loadingState.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
-                LoadingState.LOADED -> {
+                LoadingState.SUCCESS -> {
+                    hideProgress(false, binding.appbar, binding.mainList, binding.fab)
                 }
                 LoadingState.EMPTY_OR_NULL -> {
+                    hideProgress(false, binding.appbar, binding.mainList, binding.fab)
                 }
                 LoadingState.LOADING -> {
+                    showProgress(true, binding.appbar, binding.mainList, binding.fab)
                 }
                 LoadingState.NETWORK -> {
                     showErrorDialog(getString(R.string.no_network_message))
                 }
+                LoadingState.error("") -> {
+                    hideProgress(false, binding.appbar, binding.mainList, binding.fab)
+                    showErrorDialog(getString(R.string.msg_error))
+                }
             }
         })
+    }
+
+    override fun setUpToolbar(toolbar: Toolbar) {
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.apply {
+            setDisplayShowTitleEnabled(false)
+            setDisplayHomeAsUpEnabled(true)
+        }
     }
 
     private fun showProgress(
@@ -154,5 +175,16 @@ class DetailFragment : BaseFragment() {
         appBar.visibility = view
         mainList.visibility = view
         fab.visibility = view
+    }
+
+    private fun hideProgress(
+        isVisible: Boolean, appBar: AppBarLayout, mainList: NestedScrollView,
+        fab: FloatingActionButton
+    ) {
+        val view = if (isVisible) View.INVISIBLE else View.VISIBLE
+        appBar.visibility = view
+        mainList.visibility = view
+        fab.visibility = view
+
     }
 }

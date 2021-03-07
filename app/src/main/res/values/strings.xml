@@ -16,4 +16,5 @@
     <string name="dialog_message_remove_fav">¿Desea eliminar %1$s de Favoritos?</string>
     <string name="empty_favorites">Aún no añadió Favoritos</string>
     <string name="empty_list">Sin datos de Personajes</string>
+    <string name="no_description">No existe descripción para este personaje.</string>
 </resources>

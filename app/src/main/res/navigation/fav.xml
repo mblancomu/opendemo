@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/favScreen"
-        android:name="com.manuelblanco.opendemo.ui.favorites.FavoritesFragment"
+        android:name="com.manuelblanco.opendemo.ui.favorites.FavoritesListFragment"
         android:label="@string/title_fav"
-        tools:layout="@layout/fragment_grid">
+        tools:layout="@layout/fragment_list">
         <action
             android:id="@+id/action_fav_to_detail"
             app:destination="@id/detailScreen" />

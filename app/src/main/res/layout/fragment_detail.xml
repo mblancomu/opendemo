@@ -8,6 +8,11 @@
     android:background="@color/design_default_color_background"
     android:fitsSystemWindows="true">
 
+    <ProgressBar
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -19,7 +24,6 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
             app:collapsedTitleTextAppearance="@style/CollapsedAppBar"
             app:expandedTitleMarginEnd="48dp"
             app:expandedTitleMarginStart="16dp"
@@ -42,11 +46,11 @@
                 android:fitsSystemWindows="true" />
 
             <androidx.appcompat.widget.Toolbar
+                android:fitsSystemWindows="true"
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+                app:layout_collapseMode="pin"/>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -58,24 +62,37 @@
         android:background="@color/primary"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.cardview.widget.CardView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/margin_m"
-            android:layout_marginTop="@dimen/margin_xxxl"
-            android:layout_marginEnd="@dimen/margin_m"
-            android:layout_marginBottom="@dimen/margin_s"
-            app:cardCornerRadius="@dimen/card_radius_global">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/textDescription"
-                style="@style/DetailTextRegularItems"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_m"
-                android:textStyle="normal"
-                tools:text="When Captain America asked Air Force Veteran Sam Wilson for help, Wilson immediately agreed. He donned the flight suit he’d used in combat to become the Falcon, setting him on a path towards becoming an Avenger. When Captain America asked Air Force Veteran Sam Wilson for help, Wilson immediately agreed. He donned the flight suit he’d used in combat to become the Falcon, setting him on a path towards becoming an Avenger. When Captain America asked Air Force Veteran Sam Wilson for help, Wilson immediately agreed. He donned the flight suit he’d used in combat to become the Falcon, setting him on a path towards becoming an Avenger." />
-        </androidx.cardview.widget.CardView>
+                android:layout_height="400dp"
+                android:layout_marginStart="@dimen/margin_m"
+                android:layout_marginTop="@dimen/margin_xxxxl"
+                android:layout_marginEnd="@dimen/margin_m"
+                android:layout_marginBottom="@dimen/margin_s"
+                app:cardCornerRadius="@dimen/card_radius_global">
+
+                <TextView
+                    android:id="@+id/textDescription"
+                    style="@style/DetailTextRegularItems"
+                    android:gravity="top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_m"
+                    android:textStyle="normal"
+                    tools:text="When Captain America asked Air Force Veteran Sam Wilson for help,
+                    Wilson immediately agreed. He donned the flight suit he’d used in combat to become the Falcon,
+                    setting him on a path towards becoming an Avenger.
+                    When Captain America asked Air Force Veteran Sam Wilson for help,
+                    Wilson immediately agreed. He donned the flight suit he’d used in combat to become the Falcon,
+                    setting him on a path towards becoming an Avenger. When Captain America asked Air Force Veteran Sam Wilson for help, Wilson immediately agreed. He donned the flight suit he’d used in combat to become the Falcon, setting him on a path towards becoming an Avenger." />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

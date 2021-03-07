@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.manuelblanco.core.model.Favorite
 import com.manuelblanco.opendemo.R
+import com.manuelblanco.opendemo.common.ThumbnailSize
 import com.manuelblanco.opendemo.databinding.ItemFavoriteBinding
 import com.manuelblanco.opendemo.ui.favorites.FavoriteItemListeners
 
@@ -15,8 +16,11 @@ class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         initListeners(listener, favorite)
         binding.favTitle.text = favorite.name
         binding.favDescription.text = favorite.description
-        binding.favImage.load(favorite.thumbnail){
-            placeholder(R.drawable.placeholder_marvel)
+        binding.favImage.apply {
+            load(favorite.thumbnail) {
+                crossfade(true)
+                placeholder(R.drawable.placeholder_marvel)
+            }
         }
     }
 

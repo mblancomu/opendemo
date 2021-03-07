@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
     android:background="@color/primary"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,8 +27,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:backgroundTint="@color/primary"
+            app:layout_behavior="com.manuelblanco.opendemo.common.BottomNavigationBehavior"
             app:itemIconTint="@color/selector_items_nav_bottom"
             app:itemTextColor="@color/selector_items_nav_bottom"
             app:menu="@menu/bottom_nav" />
     </LinearLayout>
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

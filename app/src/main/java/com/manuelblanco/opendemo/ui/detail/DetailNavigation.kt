@@ -7,7 +7,7 @@ import com.manuelblanco.opendemo.ui.base.BaseFragment
 
 object DetailNavigation {
 
-    fun openDetail(characterId: String, navController: NavController){
+    fun openDetail(characterId: String, navController: NavController) {
         val bundle = Bundle().apply {
             putString(BaseFragment.ARGS_CHARACTER_ID, characterId)
         }

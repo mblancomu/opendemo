@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.manuelblanco.core.model.Character
 import com.manuelblanco.opendemo.R
+import com.manuelblanco.opendemo.common.ThumbnailSize
 import com.manuelblanco.opendemo.databinding.ItemCharacterBinding
 
 class CharacterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -13,8 +14,9 @@ class CharacterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(character: Character, listener: CharacterItemListeners) {
         initListeners(listener, character)
-        val imageUrl = character.thumbnail.path.plus("/portrait_xlarge").plus(".")
+        val imageUrl = character.thumbnail.path.plus(ThumbnailSize.XLARGE.size).plus(".")
             .plus(character.thumbnail.extension)
+        binding.tvTitle.text = character.name
         binding.ivThumbnail.apply {
             load(imageUrl) {
                 crossfade(true)

@@ -7,22 +7,20 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.manuelblanco.core.LoadingState
 import com.manuelblanco.core.model.Favorite
 import com.manuelblanco.opendemo.R
-import com.manuelblanco.opendemo.databinding.FragmentFavoritesBinding
-import com.manuelblanco.opendemo.ui.base.BaseFragment
+import com.manuelblanco.opendemo.dialogs.InfoDialog
+import com.manuelblanco.opendemo.ui.base.BaseListFragment
 import com.manuelblanco.opendemo.ui.detail.DetailNavigation
 import com.manuelblanco.opendemo.ui.favorites.adapter.FavoritesAdapter
 import com.manuelblanco.opendemo.viewmodel.FavoritesViewModel
-import com.manuelblanco.opendemo.dialogs.InfoDialog
-import com.manuelblanco.opendemo.common.viewLifecycle
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FavoritesFragment : BaseFragment(), FavoriteItemListeners {
+class FavoritesListFragment : BaseListFragment(), FavoriteItemListeners {
 
     lateinit var linearLayoutManager: LinearLayoutManager
-    private var binding: FragmentFavoritesBinding by viewLifecycle()
     private lateinit var favAdapter: FavoritesAdapter
     val favoritesViewModel by viewModel<FavoritesViewModel>()
     var listOfFavorites: MutableList<Favorite> = mutableListOf()
@@ -32,15 +30,14 @@ class FavoritesFragment : BaseFragment(), FavoriteItemListeners {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFavoritesBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        val bottomBar =
+            requireActivity().findViewById<View>(R.id.bottom_nav) as BottomNavigationView
+        bottomBar.visibility = View.VISIBLE
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
-
         linearLayoutManager = LinearLayoutManager(context)
 
         loadingState()
@@ -91,10 +88,6 @@ class FavoritesFragment : BaseFragment(), FavoriteItemListeners {
             android.R.color.holo_orange_light,
             android.R.color.holo_red_light
         )
-    }
-
-    fun dismissSwipeRefresh() {
-        binding.swipeRefresh.isRefreshing = false
     }
 
     override fun loadingState() {
