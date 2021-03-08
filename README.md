@@ -64,7 +64,7 @@ Manuel Blanco Murillo - Android Developer - mblancomu@gmail.com
 
 # License
 
-Copyright 2019 Manuel Blanco Murillo
+Copyright 2021 Manuel Blanco Murillo
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
