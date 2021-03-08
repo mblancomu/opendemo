@@ -34,6 +34,7 @@ versions.atsl_runner = "1.2.0"
 versions.benchmark = "1.0.0"
 versions.cardview = "1.0.0"
 versions.coil = "1.1.1"
+versions.coil_base = "1.1.1"
 versions.constraint_layout = "2.0.0-alpha2"
 versions.core_ktx = "1.1.0"
 versions.core_utils = "1.0.0"
@@ -108,7 +109,10 @@ deps.benchmark_gradle = "androidx.benchmark:benchmark-gradle-plugin:$versions.be
 
 deps.cardview = "androidx.cardview:cardview:$versions.cardview"
 
-deps.coil = "io.coil-kt:$versions.coil"
+def coil = [:]
+coil.coil = "io.coil-kt:coil:$versions.coil"
+coil.coil_base = "io.coil-kt:coil-base:$versions.coil_base"
+deps.coil = coil
 
 deps.constraint_layout = "androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
 
