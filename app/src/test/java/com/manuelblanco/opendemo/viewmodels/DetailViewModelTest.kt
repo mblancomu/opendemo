@@ -7,7 +7,7 @@ import com.manuelblanco.core.remote.MarvelResponse
 import com.manuelblanco.core.repository.MarvelRepository
 import com.manuelblanco.opendemo.utils.CoroutineTestRule
 import com.manuelblanco.opendemo.utils.LifeCycleTestOwner
-import com.manuelblanco.opendemo.viewmodel.CharactersViewModel
+import com.manuelblanco.opendemo.viewmodel.DetailViewModel
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -19,7 +19,7 @@ import org.junit.Test
 import org.junit.rules.TestRule
 
 @ExperimentalCoroutinesApi
-class CharactersViewModelTest {
+class DetailViewModelTest {
     @get:Rule
     val coroutineTestRule = CoroutineTestRule()
 
@@ -30,15 +30,15 @@ class CharactersViewModelTest {
     private val marvelRepository: MarvelRepository = mock()
 
     private lateinit var lifeCycleTestOwner: LifeCycleTestOwner
-    private lateinit var charactersViewModel: CharactersViewModel
+    private lateinit var detailViewModel: DetailViewModel
 
     @Before
     fun setUp() {
         lifeCycleTestOwner = LifeCycleTestOwner()
         lifeCycleTestOwner.onCreate()
-        charactersViewModel = CharactersViewModel(marvelRepository)
-        charactersViewModel.loadingState.observe(lifeCycleTestOwner, stateObserver)
-        charactersViewModel.isNetworkAvailable.value = true
+        detailViewModel = DetailViewModel(marvelRepository)
+        detailViewModel.loadingState.observe(lifeCycleTestOwner, stateObserver)
+        detailViewModel.isNetworkAvailable.value = true
     }
 
     @After
@@ -47,25 +47,25 @@ class CharactersViewModelTest {
     }
 
     @Test
-    fun testForGetAListOfCharactersWithNetworkOK() {
+    fun testForGetACharacterWithNetworkOK() {
         coroutineTestRule.testDispatcher.runBlockingTest {
 
             lifeCycleTestOwner.onResume()
             val mockResponse = CompletableDeferred<MarvelResponse>()
-            When calling marvelRepository.getListCharacters(0) itReturns mockResponse
+            When calling marvelRepository.getDetailCharacter(any()) itReturns mockResponse
 
-            charactersViewModel.fetchCharactersData(0)
+            detailViewModel.fetchCharacter(any())
 
-            Verify on marvelRepository that marvelRepository.getListCharacters(0) was called
+            Verify on marvelRepository that marvelRepository.getDetailCharacter(any()) was called
             Verify on stateObserver that stateObserver.onChanged(LoadingState.LOADING) was called
         }
     }
 
     @Test
-    fun testForGetAListOfCharactersWithNetworkKO() {
-        charactersViewModel.isNetworkAvailable.value = false
+    fun testForGetACharacterWithNetworkKO() {
+        detailViewModel.isNetworkAvailable.value = false
         lifeCycleTestOwner.onResume()
-        charactersViewModel.fetchCharactersData(0)
+        detailViewModel.fetchCharacter(any())
         Verify on stateObserver that stateObserver.onChanged(LoadingState.NETWORK) was called
     }
 }

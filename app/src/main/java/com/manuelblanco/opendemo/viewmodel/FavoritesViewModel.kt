@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class FavoritesViewModel(private val favoriteRepository: FavoriteRepository) : ViewModel() {
 
-    lateinit var _favoritesData: LiveData<List<Favorite>>
+    lateinit var _favoritesData:LiveData<List<Favorite>>
     private val _loadingState = MutableLiveData<LoadingState>()
     val loadingState: LiveData<LoadingState>
         get() = _loadingState

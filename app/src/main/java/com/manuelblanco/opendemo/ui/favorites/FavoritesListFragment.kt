@@ -54,6 +54,7 @@ class FavoritesListFragment : BaseListFragment(), FavoriteItemListeners {
     override fun fetchData() {
         favoritesViewModel.favoritesData.observe(viewLifecycleOwner, Observer { favorites ->
             if (!favorites.isNullOrEmpty()) {
+                favoritesViewModel.updateLoadingState(LoadingState.LOADING)
                 listOfFavorites = favorites as MutableList<Favorite>
                 favoritesViewModel.updateLoadingState(LoadingState.LOADED)
             } else {
