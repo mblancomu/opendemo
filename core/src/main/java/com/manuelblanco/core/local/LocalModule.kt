@@ -5,6 +5,9 @@ import androidx.room.Room
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
+/**
+ * Module for Koin with the local DB Room.
+ */
 internal val localModule = module {
 
     fun provideDatabase(application: Application): LocalDB {

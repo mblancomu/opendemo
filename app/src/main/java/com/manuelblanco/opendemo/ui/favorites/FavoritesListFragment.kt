@@ -51,8 +51,11 @@ class FavoritesListFragment : BaseListFragment(), FavoriteItemListeners {
         favoritesViewModel.getFavorites()
     }
 
+    /**
+     * Fetch data from Room across a Coroutine. The state is updating in every call.
+     */
     override fun fetchData() {
-        favoritesViewModel.favoritesData.observe(viewLifecycleOwner, Observer { favorites ->
+        favoritesViewModel.favoritesData.observe(viewLifecycleOwner, { favorites ->
             if (!favorites.isNullOrEmpty()) {
                 favoritesViewModel.updateLoadingState(LoadingState.LOADING)
                 listOfFavorites = favorites as MutableList<Favorite>
@@ -85,8 +88,11 @@ class FavoritesListFragment : BaseListFragment(), FavoriteItemListeners {
         }
     }
 
+    /**
+     * Status receiver from the coroutine.
+     */
     override fun loadingState() {
-        favoritesViewModel.loadingState.observe(viewLifecycleOwner, Observer { state ->
+        favoritesViewModel.loadingState.observe(viewLifecycleOwner, { state ->
             when (state) {
                 LoadingState.SUCCESS -> {
                     hideProgress()
@@ -101,6 +107,9 @@ class FavoritesListFragment : BaseListFragment(), FavoriteItemListeners {
         })
     }
 
+    /**
+     * Show dialog once the user long clicks on an item.The action can be accepted or discarded.
+     */
     private fun showDialogRemoveItem(favorite: Favorite) {
         val dialogRemove = context?.let {
             InfoDialog(it,

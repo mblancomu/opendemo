@@ -8,6 +8,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.manuelblanco.core.model.Favorite
 
+/**
+ * Favorite Dao for manage the DB Room.
+ */
 @Dao
 interface FavoriteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

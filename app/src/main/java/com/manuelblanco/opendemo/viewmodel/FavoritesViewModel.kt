@@ -10,6 +10,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * View Model in charge of Favorites from the DB, using ROOM. It is done through a coroutine, where the
+ * State is updated and the obtained code is verified. The favoritesData variable is updated
+ * with the values, for later use in the fragment that needs it.
+ */
 class FavoritesViewModel(private val favoriteRepository: FavoriteRepository) : ViewModel() {
 
     lateinit var _favoritesData:LiveData<List<Favorite>>

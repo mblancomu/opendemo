@@ -8,6 +8,9 @@ import com.manuelblanco.core.repository.FavoriteRepository
 import com.manuelblanco.core.repository.MarvelRepository
 import org.koin.dsl.module
 
+/**
+ * Module for koin with the repositories. Here is included all the modules in the core module for koin.
+ */
 internal val coreModule = module {
 
     fun provideMarvelRepository(api: MarvelApi): MarvelRepository {

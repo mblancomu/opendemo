@@ -6,6 +6,9 @@ import com.manuelblanco.core.model.Favorite
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+/**
+ * Repository for Favorites calls with suspend methods for coroutines.
+ */
 class FavoriteRepository(private val favoriteDao: FavoriteDao) {
 
     val favoriteList = favoriteDao.selectAllFavorites()

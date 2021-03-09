@@ -17,6 +17,7 @@ class CharacterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageUrl = character.thumbnail.path.plus(ThumbnailSize.XLARGE.size).plus(".")
             .plus(character.thumbnail.extension)
         binding.tvTitle.text = character.name
+        //Loading the image into the ImageView using Coil
         binding.ivThumbnail.apply {
             load(imageUrl) {
                 crossfade(true)

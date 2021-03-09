@@ -7,6 +7,9 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import androidx.lifecycle.LiveData
 
+/**
+ * Class for manage the network status in the app. Usually calling on viewModels.
+ */
 class ConnectionLiveData(private val context: Context) : LiveData<Boolean>() {
 
     private val networkReceiver = object : BroadcastReceiver() {

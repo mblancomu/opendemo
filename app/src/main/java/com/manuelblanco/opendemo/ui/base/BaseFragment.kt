@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.manuelblanco.opendemo.R
+import com.manuelblanco.opendemo.dialogs.ErrorDialog
 
 abstract class BaseFragment : Fragment() {
     companion object {
@@ -17,14 +18,15 @@ abstract class BaseFragment : Fragment() {
     abstract fun setUpToolbar(toolbar: Toolbar)
 
     fun showErrorDialog(message: String) {
-        val alertDialog: AlertDialog = AlertDialog.Builder(context).create().apply {
-            setTitle(getString(R.string.title_error))
-            setMessage(message)
-            setButton(
-                AlertDialog.BUTTON_NEUTRAL, "OK"
-            ) { dialog, _ -> dialog.dismiss() }
-            show()
+        val dialogError = context?.let {
+            ErrorDialog(it, message, object : ErrorDialog.ErrorDialogListener {
+                override fun onTrySelected() {
+                }
+            })
+        }
+        dialogError?.setCanceledOnTouchOutside(false)
+        if (dialogError != null && !dialogError.isShowing) {
+            dialogError.show()
         }
     }
-
 }

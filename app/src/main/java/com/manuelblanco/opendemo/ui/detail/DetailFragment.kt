@@ -56,7 +56,7 @@ class DetailFragment : BaseFragment() {
         initAppBarLayout()
     }
 
-    fun initAppBarLayout() {
+    private fun initAppBarLayout() {
         binding.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
             var isShow = false
             var scrollRange = -1
@@ -84,6 +84,9 @@ class DetailFragment : BaseFragment() {
         }
     }
 
+    /**
+     *  Save the detail character in Favorites using Room
+     */
     private fun saveFavorite(isFavorite: Boolean) {
         if (!isFavorite) {
             val imageUrl =
@@ -102,9 +105,12 @@ class DetailFragment : BaseFragment() {
         }
     }
 
+    /**
+     *  Fetch data for the Character id, using LiveData and Coroutines.
+     */
     override fun fetchData() {
         detailViewModel.fetchCharacter(characterId.toInt())
-        detailViewModel.character.observe(viewLifecycleOwner, Observer { detail ->
+        detailViewModel.character.observe(viewLifecycleOwner, { detail ->
             if (detail != null) {
                 characterDetail = detail
                 binding.collapsingToolbar.title = characterDetail?.name
@@ -135,8 +141,11 @@ class DetailFragment : BaseFragment() {
         })
     }
 
+    /**
+     * Status receiver from the coroutine.
+     */
     override fun loadingState() {
-        detailViewModel.loadingState.observe(viewLifecycleOwner, Observer { state ->
+        detailViewModel.loadingState.observe(viewLifecycleOwner, { state ->
             when (state) {
                 LoadingState.SUCCESS -> {
                     hideProgress(false, binding.appbar, binding.mainList, binding.fab)

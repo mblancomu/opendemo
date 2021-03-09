@@ -12,6 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.manuelblanco.core.LoadingState
 import com.manuelblanco.core.model.Character
 import com.manuelblanco.opendemo.R
+import com.manuelblanco.opendemo.dialogs.ErrorDialog
 import com.manuelblanco.opendemo.ui.base.BaseListFragment
 import com.manuelblanco.opendemo.ui.detail.DetailNavigation
 import com.manuelblanco.opendemo.ui.list.adapter.CharacterItemListeners
@@ -74,8 +75,11 @@ class CharactersListFragment : BaseListFragment(), CharacterItemListeners {
         }
     }
 
+    /**
+     * Fetch Data for the list of Characters. The logic of the list pagination is also controlled.
+     */
     override fun fetchData() {
-        charactersViewModel.characterList.observe(viewLifecycleOwner, Observer { characters ->
+        charactersViewModel.characterList.observe(viewLifecycleOwner, { characters ->
             if (!characters.isNullOrEmpty()) {
                 if (isFromUpdate) {
                     listOfCharacters.addAll(characters)
@@ -100,6 +104,9 @@ class CharactersListFragment : BaseListFragment(), CharacterItemListeners {
         DetailNavigation.openDetail(character.id, findNavController())
     }
 
+    /**
+     * State of the call from coroutines.
+     */
     override fun loadingState() {
         charactersViewModel.loadingState.observe(viewLifecycleOwner, { state ->
             when (state) {
@@ -112,10 +119,21 @@ class CharactersListFragment : BaseListFragment(), CharacterItemListeners {
                 LoadingState.LOADING -> {
                     showProgress(isFromUpdate)
                 }
+                LoadingState.NETWORK -> {
+                    hideProgress()
+                    showErrorDialog(getString(R.string.no_network_message))
+                }
+                LoadingState.error("") -> {
+                    hideProgress()
+                    showErrorDialog(getString(R.string.msg_error))
+                }
             }
         })
     }
 
+    /**
+     * Scroll Listener for downloading data in the list. They will be downloaded in batches of 10 items.
+     */
     private fun paginationScroll() {
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

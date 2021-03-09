@@ -10,7 +10,9 @@ import com.manuelblanco.opendemo.R
 import com.manuelblanco.opendemo.common.viewLifecycle
 import com.manuelblanco.opendemo.databinding.FragmentListBinding
 
-
+/**
+ * Base fragment for lists, both in Favorites and Characters.
+ */
 abstract class BaseListFragment : BaseFragment() {
 
     protected var binding: FragmentListBinding by viewLifecycle()
@@ -35,6 +37,9 @@ abstract class BaseListFragment : BaseFragment() {
 
     abstract fun onRefresh()
 
+    /**
+     * Custom toolbar for fragments.
+     */
     override fun setUpToolbar(toolbar: Toolbar) {
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         val actionBar = (activity as AppCompatActivity).supportActionBar

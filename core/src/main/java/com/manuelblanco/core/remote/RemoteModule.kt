@@ -16,6 +16,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.security.MessageDigest
 import java.util.concurrent.TimeUnit
 
+/**
+ * Module for koin with the remote logic, for get the json values, transform and apply the keys in the API.
+ */
 internal val remoteModule = module {
     single { provideApi<MarvelApi>(okHttpClient = get(), gson = get()) }
     factory { HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY } }
@@ -45,6 +48,7 @@ private fun provideOkHttpClient(
             val ts = System.currentTimeMillis()
             val beforeHash = ts.toString() + privateKey + publicKey
 
+            //Generate hash for the API authentication
             val md = MessageDigest.getInstance("MD5")
             val digested = md.digest(beforeHash.toByteArray()) // making md5 hash bytes
             val hash = digested.joinToString("") {

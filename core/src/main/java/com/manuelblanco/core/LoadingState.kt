@@ -1,5 +1,8 @@
 package com.manuelblanco.core
 
+/**
+ * Loading state for the calls in coroutines. Using in Viewmodels and fragments.
+ */
 @Suppress("DataClassPrivateConstructor")
 data class LoadingState private constructor(val status: Status, val msg: String? = null) {
     companion object {

@@ -12,6 +12,11 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * View Model in charge of calling the Character Detail by Id. It is done through a coroutine, where the
+ * State is updated and the obtained code is verified. The character variable is updated
+ * with the value, for later use in the fragment that needs it.
+ */
 class DetailViewModel(private val marvelRepository: MarvelRepository) : ViewModel() {
     private val _character = MutableLiveData<Character>()
     var isNetworkAvailable = MutableLiveData<Boolean>()
@@ -21,6 +26,9 @@ class DetailViewModel(private val marvelRepository: MarvelRepository) : ViewMode
 
     val character = _character
 
+    /**
+     * Fetch data for an specific Character Id. Network status is checked before the call
+     */
     fun fetchCharacter(id: Int){
         if (isNetworkAvailable.value!!) {
             CoroutineScope(Dispatchers.Main).launch {
@@ -38,6 +46,10 @@ class DetailViewModel(private val marvelRepository: MarvelRepository) : ViewMode
         }
     }
 
+    /**
+     * The obtained code is verified. In the case of wanting to control the different codes, you could
+     * create a method with them, or an exception package with the different errors.
+     * */
     private fun verifyResult(result: MarvelResponse){
         when (result.code.toInt()) {
             200 ->  {

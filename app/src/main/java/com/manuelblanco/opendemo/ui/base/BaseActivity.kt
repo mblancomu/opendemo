@@ -16,8 +16,11 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //Internet connection checker, it extends to all the activities of the app.
         connectionLiveData = ConnectionLiveData(this)
 
+        //The connection value is updated.
         connectionLiveData.observe(this, Observer {
             charactersViewModel.isNetworkAvailable.value = it
             detailViewModel.isNetworkAvailable.value = it

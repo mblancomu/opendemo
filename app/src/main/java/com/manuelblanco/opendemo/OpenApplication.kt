@@ -13,6 +13,8 @@ import org.koin.core.logger.Level
 class OpenApplication: Application() {
     override fun onCreate() {
         super.onCreate()
+
+        //Adding modules for Koin
         startKoin {
             androidContext(this@OpenApplication)
             androidLogger(Level.NONE)

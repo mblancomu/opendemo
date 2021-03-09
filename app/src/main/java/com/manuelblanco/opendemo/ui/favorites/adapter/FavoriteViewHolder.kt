@@ -16,6 +16,7 @@ class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         initListeners(listener, favorite)
         binding.favTitle.text = favorite.name
         binding.favDescription.text = favorite.description
+        //Loading the image into the ImageView using Coil
         binding.favImage.apply {
             load(favorite.thumbnail) {
                 crossfade(true)
@@ -24,6 +25,9 @@ class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         }
     }
 
+    /**
+     * Listener for items on Favorites list. On Long Click the user can remove a favorite. Its show a popup.
+     */
     private fun initListeners(listener: FavoriteItemListeners, favorite: Favorite) {
         binding.root.setOnClickListener {
             listener.onFavoriteClickListener(favorite)
